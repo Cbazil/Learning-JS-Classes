@@ -261,7 +261,21 @@
     // Fuzzy makes a noise.
     // Fuzzy roars.
 
+    // Mix-ins
+    // Abstact sunclasses or mix-ins are templates for classes. An ECMAScript class can only have a single superclass, so multiple inheritance from tooling classes, is not possible.
 
+    // A function with a superclass as input and a subclass extending that superclass as output can be used to implement mix-in in ECMAScript:
+
+    let calculatorMixin = base => class extends Base {
+        calc() { }
+    };
+
+    let randomizerMixin = Base => class extends base {
+        randomize() { }
+    };
+    // A class that uses these mix-ins can then be written like this: 
+    class Foo { }
+    class Bar extends calculatorMixin(randomizerMixin(Foo)) { }
 
     </script>
 </body>
