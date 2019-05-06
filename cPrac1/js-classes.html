@@ -9,13 +9,114 @@
 </head>
 <body>
     <script>
-    
-    class Rectangle {
+  /*  
+    class Rectangle { // Unlike Functions , Classes doesn't hoist so first declare a class and the access it.
         constructor(height, width) {
             this.height = height;
             this.width = width;
         }
     }
+// A class expression is another way to define a class. Class expressions can be named or unnamed.
+// The name given to a named class expression is local to the class's body.(it can be retrieved through the class's(not an instance's) ``name`` prpperty, though).
+
+    // unnamed
+    let Rectangle = class {
+        constructor(height, width) {
+            this.height = height;
+            this.width = width;
+        }
+    };
+    console.log(Rectangle.name);
+    // output: "Rectangle"
+
+    // named
+    let Rectangle = class Rectcangle2 {
+        constructor(height, width) { // the constructor method is special method for creating and intializing an object created with a class. There can only be one special method with the name "constructor"
+            this.height = height; // Class members (methods or constructor)
+            this.width = width;   // Class members (methods or constructor)
+        }
+    };
+    console.log(Rectangle.name);
+    // output: "Rectangle2"
+*/
+    // PROTOTYPE METHODS
+
+    class Rectangle {
+        constructor(height, width){
+            this.height = height;
+            this.width = width;
+        }
+
+        // Getter
+        get area() {
+            return this.calcArea(); // returns calcArea() in area()
+        }
+        calcArea() { // times height with width
+            return this.height * this.width;
+        }
+    }
+
+    const square = new Rectangle(7, 9);
+
+    console.log(square.area); // :- 63
+
+    // Static methods
+    // The static keyword defines a static method for class. Static methods are called without instantiating their class and cannot be called through a class instance. Static methods are often used to create itility(useful)functions for an application.
+
+    class Point { // defining points
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        static distance(a, b) { // calculating distance between two points
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+
+            return Math.hypot(dx, dy);
+        }
+    }
+    const p1 = new Point(5, 5);
+    const p2 = new Point(10, 10);
+
+    console.log(Point.distance(p1, p2)); // 7.0710678118654755
+
+    // Playing around
+
+    class Animal {
+        speak(){
+            return this;
+        }
+        static eat(){
+            return this;
+        }
+    }
+
+        let obj = new Animal();
+        obj.speak(); // Animal {}
+        let speak = obj.speak;
+        speak(); // undifined
+
+        Animal.eat() // class Animal
+        let eat = Animal.eat;
+        eat(); // undefined
+
+    function Animal() { }
+
+    Animal.prototype.speak = function() {
+        return this;
+    }
+
+    Animal.eat = function() {
+        return this;
+    }
+
+    let obj = new Animal();
+    let speak = obj.speak;
+    speak(); // global object
+
+    let eat = Animal.eat;
+    eat(); // global object
+
 
     </script>
 </body>
