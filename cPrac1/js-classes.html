@@ -40,7 +40,7 @@
     // output: "Rectangle2"
 */
     // PROTOTYPE METHODS
-
+/*
     class Rectangle {
         constructor(height, width){
             this.height = height;
@@ -116,6 +116,108 @@
 
     let eat = Animal.eat;
     eat(); // global object
+
+    // Instance properties
+    // Instance properties must be defined inside of class methods
+
+    class Rectangle {
+        constructor(height, width) {
+            this.height = height;
+            this.width = width;
+        }
+    }
+
+    // Static class-side properties and prototype data properties must be defined outside of the ClassBody Declaration:
+    Rectangle.staticWidth = 20;
+    Rectangle.prototype.prototypeWidth = 25;
+
+    // Field declarations
+    // Public and private field declarations are an experimental feature. Support in browsers is limited, but the feature can be used through a build step with systems like Babel.
+
+    // Public field declarations
+
+    // With the javascript field declaration syntax, the above example can be written as: 
+
+    class Rectangle {
+        height = 0; // by declaring fields up-front, class definitions become more self-documenting, and the fields are always present.
+        width; // The fields can be declared with or without a default value.
+        constructor(height, width) {
+            this.height = height;
+            this.width = width;
+        }
+    }
+
+    // Private field declarations
+
+    class Rectangle{
+        #height = 0; // Private fields can only be declared up-front in a field declaration
+        #width; // Private fields cannot be created later through assigning to them, the way that normal properties can.
+        constructor(height, width){
+            this.#height = height;
+            this.#width = width;
+        }
+    }
+*/
+    // Sub classing with extends ==>>
+    // The extends keyword is used in class declarations or class expressions to create a class as a child of another class.
+
+    class Animal {
+        constructor(name) {
+            this.name = name;
+        }
+
+        speak() {
+            console.log(`${this.name} makes a noise.`);
+        }
+    }
+    class Dog extends Animal{
+        constructor(name) {
+            super(name); // call the super class construction and pass in the parameter
+        }
+        speak(){
+            console.log(`${this.name} barks`);
+        }
+    }
+
+    let d = new Dog('Mitzie');
+    d.speak(); // Mitzie barks.
+
+    // If there is a constructor present in the subclass, it needs to first call super() before using "this".
+
+    // One may also extend traditional function-based "classes" ==>
+    function Animal(name) {
+        this.name = name;
+    }
+    Animal.prototype.speak = function () {
+        console.log(`${this.name} makes a noise.`);
+    }
+    class Dog extends Animal {
+        speak() {
+            console.log(`${this.name} barks.`);
+        }
+    }
+
+    let d = new Dog("Mitzie");
+    d.speak(); // Mitzie barks.
+
+    // Note that classes cannot extend regular (non-constructible) objects. If you want to inherit from a regular object, you can instead use Object.setPrototypeOf():
+
+    const Animal = {
+        speak() {
+            console.log(`${this.name} makes a noise.`);
+        }
+    };
+    class Dog {
+        constructor(name){
+            this.name = name;
+        }
+    }
+
+    // If you do not do this you will get a TypeError when you invoke speak
+    Object.setPrototypeOf(Dog.prototype, Animal);
+
+    let d = new Dog("Mitzie");
+    d.speak(); // Mitzie makes a noise.
 
 
     </script>
