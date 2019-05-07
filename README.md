@@ -126,3 +126,86 @@ The basic class syntax looks like this:
     // ...
 } ```
 MyClass is technically a function, while methods are written to MyClass.prototype
+
+## Methods Children and Parent
+// We don't want to replace the parent method Keywork "super"
+- super.method(...) to call a parent method.
+- super(...) to call a parent constructor (inside our constructor only).
+For instance, let rabit auto hide when stopped
+// CHECK cPrac2
+
+Overriding  constructor
+
+``` class Animal {
+    constructor(name) {
+        this.speed = 0;
+        this.name = name;
+    }
+}
+class Rabbit extends Animal {
+    constructor(name, earLength) {
+        super(name);
+        this.earLength = earlength;
+    }
+}
+
+let rabbit = new Rabbit("White Rabbit", 10);
+alert(rabbit.name); // White Rabbit
+alert(rabbit.earLength); // 10
+```
+
+## [[Prototype]]
+[[Prototype]] and prototype have entirely different purposes. [[Prototype]] is used when resolving an object's properties. If an object doesn't have a property, its [[Prototype]] is checked, and then that object's [[Prototype]], and so on, until either a property is found or you hit the end of the prototype chain.
+
+In contrast, prototype is the mechanism by which you assign [[Prototype]] properties to objects, since you can't access them directly other than with the non-standard __proto__ property.
+
+Since functions are objects, they have both a [[Prototype]] internal property, used to resolve properties as with normal objects, and a prototype property, which is assigned as the [[Prototype]] of new objects constructed by the function.
+
+Here, rabbit.eat() should call animal.eat() method of the parent object:
+
+``` let animal = {
+    name: "Animal",
+    eat(){
+        alert(`${this.name} eats.`)
+    }
+};
+
+let rabbit = {
+    __proto__: animal,
+    name: "Rabbit",
+    eat() {
+        // that's  how super.eat() could presumably work
+        this.__proto__.eat.call(this);
+    }
+};
+
+rabbit.eat(); // Rabbit eats.
+```
+
+## [[HomeObject]]
+When a function is specified as a class or object method, its [[HomeObject]] property becomes that object.
+``` let animal = {
+    name: "Animal",
+    eat() {
+        alert(`${this.name} eats.`);
+    }
+};
+
+    let rabbit = {
+    __proto__: animal,
+    name: "Rabbit",
+    eat() {
+        super.eat();
+    }
+};
+
+let longEar = {
+    __proto__: rabbit,
+    name: "Long Ear",
+    eat() {
+        super.eat();
+    }
+};
+
+longEar.eat(); // Long Ear eats.
+```
