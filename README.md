@@ -10,7 +10,7 @@
  Basically a program-code-template for creating objects also assigning defualt values
 
 ## What are constructor functions
-A good way of making simlar objects eg. Multiple users, with there info.
+A good way of making simular objects eg. Multiple users, with there info.
 - They are named with Capital letters first(This is how to identify)
 - They should be executed only with "new" operator.
 For instance: 
@@ -234,8 +234,89 @@ alert( Article.publisher ); // Ilya Kantor
 Statics are inhetited, we can  access Parent.method as Child.method
 Check static file 
 
-## Summary
+### Summary
 Static methods are used for the functionality that doesn’t relate to a concrete class instance, doesn’t require an instance to exist, but rather belongs to the class as a whole, like Article.compare – a generic method to compare two articles.
 
 Static properties are used when we’d like to store class-level data, also not bound to an instance.
 
+### Private properties
+Getter/Setter functions
+Here we used getter/setter syntax.
+
+But most of the time get.../set... functions are preferred, like this:
+
+``` Class CoffeeMachine {
+    _waterAmount = 0;
+
+    setWaterAmount(value) {
+        if (value < 0) throw new Error("Negative water");
+        this._waterAmount = value;
+    }
+    getWaterAmount() {
+        return this._waterAmount;
+    }
+}
+new CoffeeMachine().setWaterAmount(100);
+``` 
+If we inherit class MegaMachine extends CoffeeMachine, then nothing prevents us from accessing this._waterAmount or this._power from the methods of the new class.
+
+### Private
+Privates should start with #. They are only accessible from inside the class.
+
+For instance, here we add a private #waterLimit property and extract the water-checking logic into a separate method: 
+
+``` class CoffeeMachine {
+    #waterLimit = 200;
+    
+    #checkWater(value){
+        if(value < 0) throw new Error("Negative water");
+        if(value > this.#waterLimit) throw new Error("Too much water");
+    }
+    _waterAmount = 0;
+
+    set waterAmount(value) {
+        this.#checkWater(value);
+        this._waterAmount = value;
+    }
+
+    get waterAmount() {
+        return this.waterAmount;
+    }
+}
+let coffeeMachine = new CoffeeMachine();
+
+coffeeMachine.#checkWater(); // Error
+coffeeMachine.#waterLimit = 1000; // Error
+
+coffeeMachine.waterAmount = 100; // Works
+```
+We can have both private and public fields at the same time: 
+``` class CoffeeMachine {
+    #waterAmount = 0;
+
+    get waterAmount(){
+        return this.#waterAmount;
+    }
+    set waterAmount(value) {
+        if (value < 0) throw new Error("Negative water");
+        this.#waterAmount = value;
+    }
+}
+
+let machine.waterAmount = 100;
+alert(machine.#waterAmount); // Error
+```
+But if we inherit from CoffeeMachine, then we’ll have no direct access to #waterAmount.
+Supportable
+The situation in programming is more complex than with a real-life coffee machine, because we don’t just buy it once. The code constantly undergoes development and improvement.
+
+If we strictly delimit the internal interface, then the developer of the class can freely change its internal properties and methods, even without informing the users…
+
+It’s much easier to develop, if you know that certain methods can be renamed, their parameters can be changed, and even removed, because no external code depends on them.
+
+For users, when a new version comes out, it may be a total overhaul, but still simple to upgrade if the external interface is the same.
+
+To hide internal interface we use either protected or public properties:
+
+Protected fields start with _. That’s a well-known convention, not enforced at the language level. Programmers should only access a field starting with _ from its class and classes inheriting from it.
+Private fields start with #. JavaScript makes sure we only can access those from inside the class.

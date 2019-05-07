@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Private and protected properties and methods</title>
+</head>
+<body>
+    
+    <script>
+    /*  
+    class CoffeeMachine {
+        waterAmount = 0; // the amount of water inside 
+        constructor(power) {
+            this.power = power;
+            alert(`Created a coffee-machine, power: ${power}`);
+        }
+    }
+
+    // create the coffee machine
+    let coffeeMachine = new CoffeeMachine(100);
+
+    // add water
+    coffeeMachine.waterAmount = 200;
+    */
+    class CoffeeMachine {
+        _waterAmount = 0;
+
+        set waterAmount(value){
+            if(value < 0) throw new Error("Negative water");
+            this._waterAmount = value;
+        }
+
+        get waterAmount() {
+            return this._waterAmount;
+        }
+
+        constructor(power) {
+            this._power = power;
+        }
+        get power(){
+            return this.power;
+        }
+    }
+    // create the coffee machine
+    let coffeeMachine = new CoffeMachine(100);
+
+    // add water
+    alert(`Power is: ${coffeeMachine.power}W`); //  power is 100W
+    coffeeMachine.waterAmount =  -10; // Error: Negative Water
+    coffeeMachine.power = 25; // Error (no setter)
+
+
+
+    </script>
+
+
+
+</body>
+</html>
