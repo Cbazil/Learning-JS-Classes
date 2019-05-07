@@ -23,7 +23,8 @@ For instance:
 let user = new User('Larry');
 
 alert(user.name); // Larry;
-alert(user.isAdmin); // false ```
+alert(user.isAdmin); // false 
+```
 
 Constructor functions can contain methods
 
@@ -44,3 +45,30 @@ join.sayHi(); // My name is John
 }
 */ ```
 
+## Class Expression
+Classes can be defined inside another expression, passed around, return, assigned etc.
+
+If a class has a name, it's visible inside the class only;
+``` // "Named Class Expression"
+    let User = class MyClass {
+        sayHi(){
+            alert(MyClass); // My class is visible only inside the class
+        }
+    };
+    new User().sayHi(); // works, shows MyClass definition
+
+    alert(MyClass); // error, MyClass not visible outside of the class 
+```
+We can even make classes dynamically "on-demand", like this
+``` function makeClass(phrase) {
+    // declare a class and return it
+    return class {
+        sayHi(){
+            alert(phrase);
+        };
+    };
+}
+// Create a new class
+let User = makeClass('Hello');
+new User().sayHi(); // Hello
+```
