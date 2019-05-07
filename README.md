@@ -209,3 +209,33 @@ let longEar = {
 
 longEar.eat(); // Long Ear eats.
 ```
+
+## Static properties and methods
+we can also assign a method to the class function, not to its "prototype". such methods are called static.
+
+An Example: 
+``` class User {
+    static staticMethod() {
+        alert(this === User);
+    }
+}
+User.staticMethod(); // true
+```
+### Static Properties
+Static properties just like regular class properties
+
+``` class Article {
+    static publisher = "Ilya Kantor";
+}
+alert( Article.publisher ); // Ilya Kantor
+```
+
+### Static and inheritance
+Statics are inhetited, we can  access Parent.method as Child.method
+Check static file 
+
+## Summary
+Static methods are used for the functionality that doesn’t relate to a concrete class instance, doesn’t require an instance to exist, but rather belongs to the class as a whole, like Article.compare – a generic method to compare two articles.
+
+Static properties are used when we’d like to store class-level data, also not bound to an instance.
+
