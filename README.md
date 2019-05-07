@@ -72,3 +72,57 @@ We can even make classes dynamically "on-demand", like this
 let User = makeClass('Hello');
 new User().sayHi(); // Hello
 ```
+## Getters and Setters, and other shorthands
+classes also include getters/setters, generators, computed property etc.
+here's an example for user.name implemented using get/set: 
+``` class User {
+    constructor(name) {
+        // invokes the setter
+        this._name = name;
+    }
+    get name() {
+        return this._name
+    }
+    set name(value) {
+        if (value.length < 4) {
+            alert("Name is too short.");
+            return;
+        }
+        this._name = name;
+    }
+}
+let user = new User('Johnny');
+alert(user.name); // John
+
+user = new User(""); // Name is too short.
+```
+
+## Summary
+First, as per the general object-oriented terminology, a class is something that provides "Object templates", alllows to create same-structured objects
+
+When we say "a class", that doesn't necessary means the class keyword.
+This is a class: 
+``` function User(name) {
+    this.sayHi = function(){
+        alert(name);
+    }
+} ```
+
+But in most cases class keyword is used, as it provides great syntax and many additional features.
+
+The basic class syntax looks like this: 
+``` class MyClass {
+    prop = vulue; // field
+
+    construtor(...) { // constructor
+        // ...
+    }
+    method(...) {} // method
+
+    get something(...) {} getter method
+    set something(...) {} setter method
+
+    [symbol.iterator]() {} // method with computed name/symbol name
+    // ...
+} ```
+MyClass is technically a function, while methods are written to MyClass.prototype
